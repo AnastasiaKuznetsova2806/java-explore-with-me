@@ -1,4 +1,5 @@
-# java-explore-with-me
+# java-explore-with-me : https://github.com/AnastasiaKuznetsova2806/java-explore-with-me/pull/1
+
 Бэкенд для сервиса, который будет давать возможность делиться информацией 
 об интересных событиях и помогать найти компанию для участия в них.
 
