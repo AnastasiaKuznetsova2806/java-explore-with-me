@@ -48,9 +48,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto findCategoryById(long catId) {
-        if (repository.findById(catId).isEmpty()) {
-            throw new DataNotFoundException(String.format("Категория %d не найдена", catId));
-        }
-        return CategoryMapper.toCategoryDto(repository.findById(catId).get());
+        Category category = repository.findById(catId)
+                .orElseThrow(() -> new DataNotFoundException(String.format("Категория %d не найдена", catId)));
+        return CategoryMapper.toCategoryDto(category);
     }
 }

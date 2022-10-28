@@ -50,9 +50,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findUserById(long userId) {
-        if (repository.findById(userId).isEmpty()) {
-            throw new DataNotFoundException(String.format("Пользователь %d не найден", userId));
-        }
-        return UserMapper.toUserDto(repository.findById(userId).get());
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException(String.format("Пользователь %d не найден", userId)));
+        return UserMapper.toUserDto(user);
     }
 }

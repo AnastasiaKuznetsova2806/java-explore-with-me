@@ -15,8 +15,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "h.uri," +
             "count(distinct h.ip)) " +
             "from Hit h " +
-            "where h.timestamp >= ?1 " +
-            "and h.timestamp <= ?2 " +
+            "where h.timestamp between ?1 and ?2 " +
             "and h.uri in (?3) " +
             "group by h.app, h.uri ")
     List<ViewStatsDto> findAllViewsDistinctIp(LocalDateTime start, LocalDateTime end, List<String> uris);
@@ -26,8 +25,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "h.uri," +
             "count(distinct h.ip)) " +
             "from Hit h " +
-            "where h.timestamp >= ?1 " +
-            "and h.timestamp <= ?2 " +
+            "where h.timestamp between ?1 and ?2 " +
             "and h.uri in (?3) " +
             "group by h.app, h.uri ")
     List<ViewStatsDto> findAllViews(LocalDateTime start, LocalDateTime end, List<String> uris);

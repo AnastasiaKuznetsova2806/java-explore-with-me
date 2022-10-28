@@ -42,7 +42,6 @@ public class EventServiceImpl implements EventService {
     private final CheckDataValidation validation;
     private final EventClient client;
 
-    //private
     @Override
     public EventFullDto createEvent(long userId, NewEventDto newEventDto) {
         validation.eventCheck(newEventDto);
@@ -90,7 +89,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventFullDto> findAllEventsByUserId(long userId, Pageable pageable) {
         checkUser(userId);
-        return repository.findAllByInitiator_Id(userId, pageable).stream()
+        return repository.findAllByInitiatorId(userId, pageable).stream()
                 .map(event -> findEventById(event.getId(), false))
                 .collect(Collectors.toList());
     }
@@ -98,7 +97,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventFullDto findEventByIdAddedCurrentUser(long userId, long eventId) {
         checkUser(userId);
-        Event event = repository.findByIdAndInitiator_Id(eventId, userId);
+        Event event = repository.findByIdAndInitiatorId(eventId, userId);
         return findEventById(event.getId(), false);
     }
 
@@ -128,7 +127,6 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
     }
 
-    //admin
     @Override
     public EventFullDto updateEventAdmin(long eventId, AdminUpdateEventRequest updateEvent) {
         Event oldEvent = getEvent(eventId);
@@ -181,7 +179,6 @@ public class EventServiceImpl implements EventService {
         return findEventById(eventId, false);
     }
 
-    //public
     @Override
     public List<EventFullDto> findAllEventPublic(HttpServletRequest request, Filter filter, Pageable pageable) {
         saveInfoStatisticService(request);
@@ -200,7 +197,6 @@ public class EventServiceImpl implements EventService {
         return findEventById(event.getId(), true);
     }
 
-    //
     @Override
     public List<Event> getAllEventsById(List<Long> ids) {
         return repository.findAllById(ids);
@@ -208,10 +204,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getEvent(long eventId) {
-        if (repository.findById(eventId).isEmpty()) {
-            throw new DataNotFoundException(String.format("Событие %d не найдено", eventId));
-        }
-        return repository.findById(eventId).get();
+        return repository.findById(eventId)
+                .orElseThrow(() -> new DataNotFoundException(String.format("Событие %d не найдено", eventId)));
     }
 
     private void addView(Event event) {

@@ -94,9 +94,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     private Compilation getCompilationById(long compId) {
-        if (repository.findById(compId).isEmpty()) {
-            throw new DataNotFoundException(String.format("Событие %d не найдено", compId));
-        }
-        return repository.findById(compId).get();
+        return repository.findById(compId)
+                .orElseThrow(() -> new DataNotFoundException(String.format("Событие %d не найдено", compId)));
     }
 }

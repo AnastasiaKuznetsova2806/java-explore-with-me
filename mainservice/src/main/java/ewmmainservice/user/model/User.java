@@ -14,14 +14,13 @@ import java.util.Objects;
 @Table(name = "USERS")
 public class User {
     @Id
-    @Column(name = "ID_USER")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "NAME_USER", nullable = false)
     private String name;
 
-    @Column(name = "EMAIL", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Override

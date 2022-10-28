@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "LOCATIONS")
 public class Location {
     @Id
-    @Column(name = "ID_LOCATION")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private float lat;

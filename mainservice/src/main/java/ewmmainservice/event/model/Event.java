@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Table(name = "EVENTS")
 public class Event {
     @Id
-    @Column(name = "ID_EVENT")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -61,7 +60,7 @@ public class Event {
     @Column(name = "REQUEST_MODERATION", nullable = false)
     private boolean requestModeration;
 
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
     private State state;
 
     @Column(length = 120)

@@ -2,8 +2,8 @@ package ewmmainservice.common.exception;
 
 public class DataNotFoundException extends RuntimeException {
 
-    public DataNotFoundException(String massage) {
-        super(massage);
+    public DataNotFoundException(String message) {
+        super(message);
     }
 
     public String getMassage() {

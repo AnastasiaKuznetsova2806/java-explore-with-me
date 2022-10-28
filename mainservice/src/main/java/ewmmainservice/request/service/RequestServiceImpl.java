@@ -58,7 +58,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<ParticipationRequestDto> findAllRequestsByUserId(long userId) {
         checkUser(userId);
-        return repository.findAllByRequester_Id(userId).stream()
+        return repository.findAllByRequesterId(userId).stream()
                 .map(RequestMapper::toRequestDto)
                 .collect(Collectors.toList());
     }
@@ -67,7 +67,7 @@ public class RequestServiceImpl implements RequestService {
     public List<ParticipationRequestDto> findRequestsToParticipateInUsersEvent(long userId, long eventId) {
         checkUser(userId);
         checkEvent(eventId);
-        return repository.findAllByEvent_Id(eventId).stream()
+        return repository.findAllByEventId(eventId).stream()
                 .map(RequestMapper::toRequestDto)
                 .collect(Collectors.toList());
     }
@@ -102,14 +102,12 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private Request findRequestById(long requestId) {
-        if (repository.findById(requestId).isEmpty()) {
-            throw new DataNotFoundException(String.format("Запрос %d не найден", requestId));
-        }
-        return repository.findById(requestId).get();
+        return repository.findById(requestId)
+                .orElseThrow(() -> new DataNotFoundException(String.format("Запрос %d не найден", requestId)));
     }
 
     private ParticipationRequestDto checkRequest(long userId, long eventId) {
-        if (repository.findAllByRequester_IdAndEvent_Id(userId, eventId) != null) {
+        if (repository.findAllByRequesterIdAndEventId(userId, eventId) != null) {
             throw new ConflictException("Нельзя добавить повторный запрос");
         } else {
             return new ParticipationRequestDto(LocalDateTime.now(), eventId, 0, userId, Status.PENDING);

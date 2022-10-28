@@ -9,11 +9,11 @@ import ewmmainservice.request.Status;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
-    Request findAllByRequester_IdAndEvent_Id(long userId, long eventId);
+    Request findAllByRequesterIdAndEventId(long userId, long eventId);
 
-    List<Request> findAllByRequester_Id(long userId);
+    List<Request> findAllByRequesterId(long userId);
 
-    List<Request> findAllByEvent_Id(long eventId);
+    List<Request> findAllByEventId(long eventId);
 
     @Query("select count(r.id) " +
             "from Request r " +

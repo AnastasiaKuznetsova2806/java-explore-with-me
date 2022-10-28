@@ -16,11 +16,10 @@ import java.util.Set;
 @Table(name = "COMPILATIONS")
 public class Compilation {
     @Id
-    @Column(name = "ID_COMPILATION")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})//cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "EVENT_COMPILATIONS",
             joinColumns = {@JoinColumn(name = "ID_EVENT")},
             inverseJoinColumns = {@JoinColumn(name = "ID_COMPILATION")}
