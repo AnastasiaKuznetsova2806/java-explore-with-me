@@ -78,11 +78,16 @@ public class EventMapper {
                 event.isRequestModeration(),
                 event.getState(),
                 event.getTitle(),
-                event.getViews()
+                event.getViews(),
+                0,
+                0
         );
     }
 
-    public static EventFullDto toEventFullDto(Event event, long confirmedRequests) {
+    public static EventFullDto toEventFullDto(Event event,
+                                              long confirmedRequests,
+                                              int like,
+                                              int dislike) {
         return new EventFullDto(
                 event.getAnnotation(),
                 CategoryMapper.toCategoryDto(event.getCategory()),
@@ -102,7 +107,9 @@ public class EventMapper {
                 event.isRequestModeration(),
                 event.getState(),
                 event.getTitle(),
-                event.getViews()
+                event.getViews(),
+                like,
+                dislike
         );
     }
 

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class EventFullDto {
+public class EventFullDto implements Comparable<EventFullDto> {
     private String annotation;
     private CategoryDto category;
     private long confirmedRequests;
@@ -25,6 +25,13 @@ public class EventFullDto {
     private State state;
     private String title;
     private long views;
+    private int like;
+    private int dislike;
+
+    @Override
+    public int compareTo(EventFullDto o) {
+        return o.like - this.like;
+    }
 
     @Data
     @AllArgsConstructor

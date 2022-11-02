@@ -31,7 +31,7 @@ public class RequestController {
 
     @GetMapping
     public List<ParticipationRequestDto> findAllRequestsByUserId(@PathVariable long userId) {
-        log.info("Получен запрос на получение информации заявках: userId={} на участие в чужих событиях", userId);
+        log.info("Получен запрос на получение информации o заявках: userId={} на участие в чужих событиях", userId);
         return service.findAllRequestsByUserId(userId);
     }
 }

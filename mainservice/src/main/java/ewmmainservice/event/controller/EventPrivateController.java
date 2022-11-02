@@ -6,6 +6,7 @@ import ewmmainservice.event.dto.EventFullDto;
 import ewmmainservice.event.dto.NewEventDto;
 import ewmmainservice.event.dto.UpdateEventRequest;
 import ewmmainservice.event.service.EventService;
+import ewmmainservice.rating.service.RatingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import java.util.List;
 public class EventPrivateController {
     private final EventService service;
     private final RequestService requestService;
+    private final RatingService ratingService;
 
     @PostMapping
     public EventFullDto createEvent(@PathVariable long userId,
@@ -101,5 +103,24 @@ public class EventPrivateController {
                 " пользователя userId={} ", reqId, eventId, userId
         );
         return requestService.rejectRequestParticipationInEvent(userId, eventId, reqId);
+    }
+
+    @PostMapping(value = "/{eventId}/rating")
+    public void addEventRating(@PathVariable long userId,
+                               @PathVariable long eventId,
+                               @RequestParam boolean rating) {
+        log.info("Получен запрос на добывление рейтинга rating={} на событие eventId={} " +
+                " пользователем userId={} ", rating, eventId, userId
+        );
+        ratingService.addEventRating(userId, eventId, rating);
+    }
+
+    @DeleteMapping(value = "/{eventId}/rating")
+    public void deleteEventRating(@PathVariable long userId,
+                                  @PathVariable long eventId) {
+        log.info("Получен запрос на удаление рейтинга на событие eventId={} " +
+                " пользователем userId={} ", eventId, userId
+        );
+        ratingService.deleteEventRating(userId, eventId);
     }
 }
