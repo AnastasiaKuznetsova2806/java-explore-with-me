@@ -109,7 +109,7 @@ public class EventPrivateController {
     public void addEventRating(@PathVariable long userId,
                                @PathVariable long eventId,
                                @RequestParam boolean rating) {
-        log.info("Получен запрос на добывление рейтинга rating={} на событие eventId={} " +
+        log.info("Получен запрос на добавление рейтинга rating={} на событие eventId={} " +
                 " пользователем userId={} ", rating, eventId, userId
         );
         ratingService.addEventRating(userId, eventId, rating);

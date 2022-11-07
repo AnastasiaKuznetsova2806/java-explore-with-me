@@ -30,7 +30,7 @@ public class EventFullDto implements Comparable<EventFullDto> {
 
     @Override
     public int compareTo(EventFullDto o) {
-        return o.like - this.like;
+        return (o.like - o.dislike) - (this.like - this.dislike);
     }
 
     @Data
