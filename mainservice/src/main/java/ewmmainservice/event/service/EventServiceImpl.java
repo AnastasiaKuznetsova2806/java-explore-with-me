@@ -110,7 +110,9 @@ public class EventServiceImpl implements EventService {
         }
 
         long confirmedRequests = repository.countConfirmedRequests(eventId);
-        return EventMapper.toEventFullDto(event, confirmedRequests);
+        int like = repository.countRatingByEventId(eventId, true);
+        int dislike = repository.countRatingByEventId(eventId, false);
+        return EventMapper.toEventFullDto(event, confirmedRequests, like, dislike);
     }
 
     @Override

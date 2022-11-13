@@ -20,4 +20,11 @@ public interface EventRepository extends JpaRepository<Event, Long>, QuerydslPre
     Event findByIdAndInitiatorId(long eventId, long userId);
 
     Event findByIdAndState(long id, State state);
+
+    @Query("select count(r.event.id) " +
+            "from Rating r " +
+            "join Event e on e.id = r.event.id " +
+            "where r.event.id = ?1 " +
+            "and r.likes = ?2 ")
+    int countRatingByEventId(long eventId, boolean rating);
 }

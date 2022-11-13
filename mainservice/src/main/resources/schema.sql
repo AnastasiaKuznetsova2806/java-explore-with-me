@@ -76,3 +76,15 @@ create table if not exists REQUESTS
         references USERS on delete cascade
 );
 
+create table if not exists RATINGS
+(
+    ID_EVENT bigint                                  not null,
+    ID_USER  bigint                                  not null,
+    LIKES    boolean                                 not null,
+    constraint PK_RATINGS primary key (ID_EVENT, ID_USER),
+    constraint FK_RATING_EVENTS_ID_EVENT foreign key (ID_EVENT)
+        references EVENTS on delete cascade,
+    constraint FK_RATING_USERS_ID_USER foreign key (ID_USER)
+        references USERS on delete cascade
+);
+

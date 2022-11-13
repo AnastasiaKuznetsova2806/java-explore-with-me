@@ -1,6 +1,7 @@
 package ewmmainservice.request.service;
 
 import ewmmainservice.request.dto.ParticipationRequestDto;
+import ewmmainservice.request.model.Request;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface RequestService {
     ParticipationRequestDto rejectRequestParticipationInEvent(long userId, long eventId, long reqId);
 
     long getConfirmedRequests(long eventId);
+
+    Request getRequestByUserIdAndEventId(long userId, long eventId);
 }

@@ -101,13 +101,18 @@ public class RequestServiceImpl implements RequestService {
         return repository.countConfirmedRequests(eventId, Status.CONFIRMED);
     }
 
+    @Override
+    public Request getRequestByUserIdAndEventId(long userId, long eventId) {
+        return repository.findAllByRequesterIdAndEventId(userId, eventId);
+    }
+
     private Request findRequestById(long requestId) {
         return repository.findById(requestId)
                 .orElseThrow(() -> new DataNotFoundException(String.format("Запрос %d не найден", requestId)));
     }
 
     private ParticipationRequestDto checkRequest(long userId, long eventId) {
-        if (repository.findAllByRequesterIdAndEventId(userId, eventId) != null) {
+        if (getRequestByUserIdAndEventId(userId, eventId) != null) {
             throw new ConflictException("Нельзя добавить повторный запрос");
         } else {
             return new ParticipationRequestDto(LocalDateTime.now(), eventId, 0, userId, Status.PENDING);
