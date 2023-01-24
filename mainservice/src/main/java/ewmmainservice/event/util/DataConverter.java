@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class DataConverter {
     public LocalDateTime toDate(String date) {
-        return LocalDateTime.parse(date, CommonConstant.FORMATTER);
+        return date == null ? null : LocalDateTime.parse(date, CommonConstant.FORMATTER);
     }
 
     public String toDateString(LocalDateTime date) {
@@ -19,6 +19,9 @@ public class DataConverter {
     }
 
     public List<State> toState(List<String> states) {
+        if (states == null) {
+            return null;
+        }
         List<State> stateList;
         try {
             stateList = states.stream()

@@ -25,8 +25,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserShortDto userShortDto) {
         validation.userCheck(userShortDto);
         User user = UserMapper.toUser(userShortDto);
-        User user1 = repository.save(user);
-        return UserMapper.toUserDto(user1);
+        return UserMapper.toUserDto(repository.save(user));
     }
 
     @Override

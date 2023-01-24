@@ -23,7 +23,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
     @Query("select new ewmstat.hit.dto.ViewStatsDto(" +
             "h.app, " +
             "h.uri," +
-            "count(distinct h.ip)) " +
+            "count(h.ip)) " +
             "from Hit h " +
             "where h.timestamp between ?1 and ?2 " +
             "and h.uri in (?3) " +

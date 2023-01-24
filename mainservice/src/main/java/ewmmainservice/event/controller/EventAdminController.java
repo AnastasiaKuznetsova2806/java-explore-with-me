@@ -22,11 +22,11 @@ public class EventAdminController {
     private final EventService service;
 
     @GetMapping
-    public List<EventFullDto> findAllEventsAdmin(@RequestParam List<Long> users,
-                                                 @RequestParam List<String> states,
-                                                 @RequestParam List<Long> categories,
-                                                 @RequestParam String rangeStart,
-                                                 @RequestParam String rangeEnd,
+    public List<EventFullDto> findAllEventsAdmin(@RequestParam(required = false) List<Long> users,
+                                                 @RequestParam(required = false) List<String> states,
+                                                 @RequestParam(required = false) List<Long> categories,
+                                                 @RequestParam(required = false) String rangeStart,
+                                                 @RequestParam(required = false) String rangeEnd,
                                                  @RequestParam(defaultValue = CommonConstant.DEFAULT_FROM) int from,
                                                  @RequestParam(defaultValue = CommonConstant.DEFAULT_SIZE) int size) {
         log.info("Получен запрос на получение событий с возможностью фильтрации: " +
