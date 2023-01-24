@@ -57,6 +57,7 @@ public class CompilationServiceImpl implements CompilationService {
         Event event = eventService.getEvent(eventId);
         Compilation compilation = getCompilationById(compId);
         compilation.getEvents().add(event);
+        System.out.println(compilation);
         repository.save(compilation);
     }
 

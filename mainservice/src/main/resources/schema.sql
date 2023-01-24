@@ -57,9 +57,9 @@ create table if not exists COMPILATIONS
 
 create table if not exists EVENT_COMPILATIONS
 (
-    ID_EVENT        bigint references EVENTS (ID)       not null,
     ID_COMPILATION  bigint references COMPILATIONS (ID) not null,
-    constraint PK_COMPILATION_EVENTS primary key (ID_EVENT, ID_COMPILATION)
+    ID_EVENT        bigint references EVENTS (ID)       not null,
+    constraint PK_COMPILATION_EVENTS primary key (ID_COMPILATION, ID_EVENT)
 );
 
 create table if not exists REQUESTS

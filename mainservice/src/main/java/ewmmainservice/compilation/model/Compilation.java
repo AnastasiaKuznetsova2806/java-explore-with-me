@@ -21,8 +21,8 @@ public class Compilation {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "EVENT_COMPILATIONS",
-            joinColumns = {@JoinColumn(name = "ID_EVENT")},
-            inverseJoinColumns = {@JoinColumn(name = "ID_COMPILATION")}
+            joinColumns = {@JoinColumn(name = "ID_COMPILATION")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_EVENT")}
     )
     @ToString.Exclude
     private Set<Event> events = new HashSet<>();

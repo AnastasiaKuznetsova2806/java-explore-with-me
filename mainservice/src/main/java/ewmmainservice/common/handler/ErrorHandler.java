@@ -7,6 +7,7 @@ import ewmmainservice.common.exception.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -40,13 +41,25 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleDefaultHandlerExceptionResolver(final MissingServletRequestParameterException e) {
+        return new ApiError(
+                e.getStackTrace(),
+                e.getMessage(),
+                "Ошибка параметра запроса",
+                StatusException.BAD_REQUEST,
+                LocalDateTime.now()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleValidException(final MethodArgumentNotValidException e) {
         return new ApiError(
                 e.getStackTrace(),
                 e.getMessage(),
                 "Не выполнены условия для совершения операции",
-                StatusException.FORBIDDEN,
+                StatusException.BAD_REQUEST,
                 LocalDateTime.now()
         );
     }

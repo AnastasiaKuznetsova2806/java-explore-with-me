@@ -18,23 +18,22 @@ import java.util.Objects;
 @Table(name = "EVENT_COMPILATIONS")
 public class EventCompilation implements Serializable {
     @Id
-    @Column(name = "ID_EVENT")
-    private long eventId;
-
-    @Id
     @Column(name = "ID_COMPILATION")
     private long compilationId;
+    @Id
+    @Column(name = "ID_EVENT")
+    private long eventId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventCompilation that = (EventCompilation) o;
-        return eventId == that.eventId && compilationId == that.compilationId;
+        return compilationId == that.compilationId && eventId == that.eventId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(eventId, compilationId);
+        return Objects.hash(compilationId, eventId);
     }
 }
