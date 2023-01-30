@@ -94,6 +94,25 @@ HITS
     EMAIL     varchar(512)                            not null,
     constraint PK_USERS primary key (ID_USER),
     constraint UQ_USERS_EMAIL unique (EMAIL)
-); ```
+); 
+```
 
+### Запуск:
+Запуск осуществляется с использованием Docker-контейнеров.
+
+Склонируйте репозиторий: git clone https://github.com/AnastasiaKuznetsova2806/java-explore-with-me.git
+
+Зайдите в корневую папку проекта: cd java-explore-with-me
+
+У вас должен быть установлен maven.
+
+mvn clean install
+
+Для запуска используйте команду докера: docker-compose up -d
+
+Docker содержит в себе 4 контейнера:
+ - ewm-stats port:9090:9090
+ - ewm-stats-bd port:6541:5432
+ - ewm-main-service port:8080:8080
+ - ewm-main-service-bd port:6542:5432
 
