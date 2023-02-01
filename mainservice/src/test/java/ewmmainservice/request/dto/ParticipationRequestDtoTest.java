@@ -10,8 +10,6 @@ import org.springframework.boot.test.json.JsonContent;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @JsonTest
 class ParticipationRequestDtoTest {
