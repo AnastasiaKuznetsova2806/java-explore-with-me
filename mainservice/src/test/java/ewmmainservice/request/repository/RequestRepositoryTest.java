@@ -24,8 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -67,8 +69,44 @@ class RequestRepositoryTest {
         Request result = repository.findAllByRequesterIdAndEventId(user.getId(), eventFullDto.getId());
 
         assertThat(result, notNullValue());
-        assertEquals(1, result.getId());
+        assertEquals(request.getId(), result.getId());
         assertEquals(request.getEvent().getId(), result.getEvent().getId());
+    }
+
+    @Test
+    void findAllByRequesterId() {
+        List<Request> result = repository.findAllByRequesterId(user.getId());
+
+        assertThat(result, notNullValue());
+        assertThat(result, hasItem(request));
+        assertEquals(request.getId(), result.get(0).getId());
+    }
+
+    @Test
+    void findAllByEventId() {
+        List<Request> result = repository.findAllByEventId(eventFullDto .getId());
+
+        assertThat(result, notNullValue());
+        assertThat(result, hasItem(request));
+        assertEquals(request.getId(), result.get(0).getId());
+    }
+
+    @Test
+    void countConfirmedRequests() {
+        long result = repository.countConfirmedRequests(eventFullDto .getId(), Status.PENDING);
+
+        assertThat(result, notNullValue());
+        assertEquals(1, result);
+    }
+
+    @Test
+    void updateRequestsByEventIdAndStatus() {
+        repository.updateRequestsByEventIdAndStatus(Status.CANCELED, eventFullDto .getId(), Status.PENDING);
+        List<Request> result = repository.findAllByEventId(eventFullDto .getId());
+
+        assertThat(result, notNullValue());
+        assertEquals(request.getId(), result.get(0).getId());
+        assertEquals(request.getStatus(), result.get(0).getStatus());
     }
 
     private void setParam() {
