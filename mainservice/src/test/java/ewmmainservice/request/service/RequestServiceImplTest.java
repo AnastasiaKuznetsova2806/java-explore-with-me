@@ -12,7 +12,6 @@ import ewmmainservice.event.util.State;
 import ewmmainservice.request.RequestMapper;
 import ewmmainservice.request.Status;
 import ewmmainservice.request.dto.ParticipationRequestDto;
-import ewmmainservice.request.model.Request;
 import ewmmainservice.request.repository.RequestRepository;
 import ewmmainservice.user.UserMapper;
 import ewmmainservice.user.model.User;
@@ -45,7 +44,6 @@ class RequestServiceImplTest {
     private EventService eventService;
     @InjectMocks
     private CheckDataValidation validation;
-    private Request request;
     private User user;
     private EventFullDto eventFullDto;
 
@@ -58,7 +56,7 @@ class RequestServiceImplTest {
         ParticipationRequestDto requestDto = new ParticipationRequestDto(
                 dateTime, 1L, 1L, 2L, Status.PENDING
         );
-        request = repository.save(RequestMapper.toRequest(requestDto, user, eventFullDto));
+        repository.save(RequestMapper.toRequest(requestDto, user, eventFullDto));
     }
 
     @Test
@@ -75,6 +73,42 @@ class RequestServiceImplTest {
         );
 
         assertEquals("Инициатор события не может добавить запрос на участие в своём событии",
+                exception.getMassage());
+    }
+
+    @Test
+    void createRequestConflictExceptionUnpublishedEvent() {
+        when(userService.findUserById(anyLong())).thenReturn(UserMapper.toUserDto(user));
+        eventFullDto.setState(State.PENDING);
+        when(eventService.findEventById(anyLong(), anyBoolean())).thenReturn(eventFullDto);
+        when(repository.save(any())).thenThrow(
+                new ConflictException("Нельзя участвовать в неопубликованном событии")
+        );
+
+        final ConflictException exception = assertThrows(
+                ConflictException.class,
+                () -> service.createRequest(1L, 2L)
+        );
+
+        assertEquals("Нельзя участвовать в неопубликованном событии",
+                exception.getMassage());
+    }
+
+    @Test
+    void createRequestConflictExceptionEventLimitReached() {
+        when(userService.findUserById(anyLong())).thenReturn(UserMapper.toUserDto(user));
+        eventFullDto.setConfirmedRequests(289);
+        when(eventService.findEventById(anyLong(), anyBoolean())).thenReturn(eventFullDto);
+        when(repository.save(any())).thenThrow(
+                new ConflictException("Невозможно! Достигнут лимит на данное событие")
+        );
+
+        final ConflictException exception = assertThrows(
+                ConflictException.class,
+                () -> service.createRequest(1L, 2L)
+        );
+
+        assertEquals("Невозможно! Достигнут лимит на данное событие",
                 exception.getMassage());
     }
 

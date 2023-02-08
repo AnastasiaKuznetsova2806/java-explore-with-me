@@ -95,7 +95,7 @@ public class CheckDataValidation {
 
     private void checkEventLimit(EventFullDto event) {
         int limit = event.getParticipantLimit();
-        if (limit != 0 &&  limit <= event.getConfirmedRequests()) {
+        if (limit != 0 && limit <= event.getConfirmedRequests()) {
             throw new ConflictException("Невозможно! Достигнут лимит на данное событие");
         }
     }
